@@ -1,12 +1,29 @@
-"use server"
+"use server";
 
 export async function submitContactForm(formData: FormData) {
-  // ここで実際のフォーム送信処理を行います（例：メール送信、データベース保存など）
-  // この例ではダミーの処理を行います
-  const data = Object.fromEntries(formData)
-  console.log("Form submitted:", data)
+	const data = Object.fromEntries(formData);
 
-  // 送信が成功したと仮定
-  return { success: true, message: "お問い合わせありがとうございます。担当者より近日中にご連絡いたします。" }
+	try {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			},
+		);
+
+		const result = await response.json();
+
+		return { success: !!result.success, message: result.message };
+	} catch (error) {
+		console.error("Error submitting form:", error);
+		return {
+			success: false,
+			message:
+				"お問い合わせの送信中にエラーが発生しました。しばらくしてから再度お試しください。",
+		};
+	}
 }
-
