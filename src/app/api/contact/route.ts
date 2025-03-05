@@ -4,10 +4,10 @@ import { NextResponse } from "next/server";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
 export async function POST(request: Request) {
-	const body = await request.json();
-	const { name, email, phone, company, position, service, message } = body;
+    const body = await request.json();
+    const { name, email, phone, company, position, service, message } = body;
 
-	const contentUser = `
+    const contentUser = `
     お問い合わせありがとうございます。
     以下の内容で承りました。
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     担当者より近日中にご連絡いたします。
   `;
 
-	const contentAdmin = `
+    const contentAdmin = `
     新しいお問い合わせがありました。
 
     お名前: ${name}
@@ -34,37 +34,37 @@ export async function POST(request: Request) {
     メッセージ: ${message}
   `;
 
-	const msgUser = {
-		to: email,
-		from: "noreply@josysco.com",
-		subject: "お問い合わせを受け付けました",
-		text: contentUser,
-	};
+    const msgUser = {
+        to: email,
+        from: "noreply@josysco.com",
+        subject: "お問い合わせを受け付けました",
+        text: contentUser,
+    };
 
-	const msgAdmin = {
-		to: "Admin@catenas.co.jp",
-		from: "noreply@josysco.com",
-		subject: "新しいお問い合わせがありました",
-		text: contentAdmin,
-	};
+    const msgAdmin = {
+        to: "Admin@catenas.co.jp",
+        from: "noreply@josysco.com",
+        subject: "新しいお問い合わせがありました",
+        text: contentAdmin,
+    };
 
-	try {
-		await sgMail.send(msgUser);
-		await sgMail.send(msgAdmin);
-		return NextResponse.json({
-			success: true,
-			message:
-				"お問い合わせを受け付けました。確認メールをお送りしましたのでご確認ください。",
-		});
-	} catch (error) {
-		console.error("Error sending email", error);
-		return NextResponse.json(
-			{
-				success: false,
-				message:
-					"お問い合わせの送信中にエラーが発生しました。しばらくしてから再度お試しください。",
-			},
-			{ status: 500 },
-		);
-	}
+    try {
+        await sgMail.send(msgUser);
+        await sgMail.send(msgAdmin);
+        return NextResponse.json({
+            success: true,
+            message:
+                "お問い合わせを受け付けました。確認メールをお送りしましたのでご確認ください。",
+        });
+    } catch (error) {
+        console.error("Error sending email", error);
+        return NextResponse.json(
+            {
+                success: false,
+                message:
+                    "お問い合わせの送信中にエラーが発生しました。しばらくしてから再度お試しください。",
+            },
+            { status: 500 },
+        );
+    }
 }
