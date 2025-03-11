@@ -8,7 +8,8 @@
         "lint": "pnpm biome check",
         "fix": "pnpm biome check --write .",
         "ci": "pnpm biome ci .",
-        "build": "pnpm next build"
+        "build": "pnpm next build",
+        "start": "pnpm next start"
     },
     "dependencies": {
         "@radix-ui/react-checkbox": "^1.1.4",
