@@ -17,4 +17,8 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./standalone/
+COPY --from=builder /app/.next/static ./.next/static
+CMD ["node", "server.js"]
