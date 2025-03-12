@@ -21,4 +21,6 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/public ./standalone/
 COPY --from=builder /app/.next/static ./.next/static
+ENV AWS_LWA_PORT=3000
+ENV AWS_LWA_INVOKE_MODE=response_stream
 CMD ["node", "server.js"]
